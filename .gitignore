@@ -21,7 +21,5 @@ $RECYCLE.BIN/
 # =========================
 # Operating System Files
 # =========================
-Temp/__Backupscenes/0.backup
-Library/shadercompiler-UnityShaderCompiler.exe1.log
-Library/shadercompiler-UnityShaderCompiler.exe1.log
-Library/shadercompiler-UnityShaderCompiler.exe3.log
+Temp/
+Library/
