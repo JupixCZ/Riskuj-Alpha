@@ -25,19 +25,30 @@ public static class GlobalHandler
         players.Add(new Player(name));
     }
 
-    public static Player getPlayer(int num) {
-        if (num > players.Count) {
+    public static Player getPlayer(int num)
+    {
+        if (num > players.Count)
+        {
             return null;
         }
 
         return players[num - 1];
     }
 
-    public static void ActivatePlayerByArrowCode(string keyCode) {
-        Player activePlayer = GetPlayerByArrowCode(keyCode);
-        foreach (Player player in players) {
+    public static Player ActivatePlayerByArrowCode(string keyCode, bool notAnsweredOnly)
+    {
+        Player activePlayer = GetPlayerByArrowCode(keyCode, notAnsweredOnly);
+        if (activePlayer == null)
+        {
+            return null;
+        }
+
+        foreach (Player player in players)
+        {
             player.SetActive(player.Equals(activePlayer));
         }
+
+        return activePlayer;
     }
 
     public static void DeactivatePlayers()
@@ -50,27 +61,56 @@ public static class GlobalHandler
 
     public static void ActivePlayerClaimPrize(Question question)
     {
+        Player activePlayer = GetActivePlayer();
+
+        activePlayer.AddToBalance(question.GetPrize());
+    }
+
+    public static void ActivePlayerFailed(Question question) {
+        Player activePlayer = GetActivePlayer();
+
+        activePlayer.AnsweredWrong(question.GetPrize());
+    }
+
+    private static Player GetActivePlayer() {
         Player activePlayer = null;
         foreach (Player player in players)
         {
-            if (player.IsActive()) {
+            if (player.IsActive())
+            {
                 activePlayer = player;
                 break;
             }
         }
 
-        if (activePlayer == null) {
+        if (activePlayer == null)
+        {
             //TODO LOGGER
-            return;
+            return null;
         }
 
-        activePlayer.AddToBalance(question.GetPrize());
+        return activePlayer;
     }
 
-    private static Player GetPlayerByArrowCode(string keyCode) {
+    public static void RefreshPlayers() {
+        foreach (Player player in players)
+        {
+            player.RefreshAnswering();
+        }
+    }
+
+    private static Player GetPlayerByArrowCode(string keyCode, bool notAnsweredOnly)
+    {
         int playersCount = players.Count;
 
         int playerIndex = KeyUtil.GetPlayerIndexByArrowCode(playersCount, keyCode);
-        return players[playerIndex];
+        Player playerByArrowCode = players[playerIndex];
+
+        if (notAnsweredOnly && playerByArrowCode.IsWrongAnswer())
+        {
+            return null;
+        }
+
+        return playerByArrowCode;
     }
 }

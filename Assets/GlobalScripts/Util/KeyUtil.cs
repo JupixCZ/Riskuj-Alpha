@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class KeyUtil
 {
+
+    //TODO redo to KEYCODES!
     private const string SPACEBAR = "space";
     private const string CTRL = "ctrl";
     private const string ARROW_LEFT = "left";
@@ -28,7 +31,8 @@ public static class KeyUtil
         return System.Array.IndexOf(playerArrowCodes, keyCode) != -1;
     }
 
-    public static bool IsCtrl(string keyCode) {
+    public static bool IsCtrl(string keyCode)
+    {
         return keyCode.Equals(CTRL);
     }
 
@@ -52,6 +56,11 @@ public static class KeyUtil
         if (Input.GetKeyDown(ARROW_DOWN))
         {
             return ARROW_DOWN;
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightControl))
+        {
+            return CTRL;
         }
 
         return Input.inputString;
