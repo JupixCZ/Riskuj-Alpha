@@ -12,6 +12,8 @@ public class SceneHandler : MonoBehaviour
     private string firstKey;
     private string secondKey;
     private bool resolvingKey = false;
+    private GameObject questionPanel;
+    private Animator anim;
 
     // Use this for initialization
     void Start()
@@ -19,6 +21,9 @@ public class SceneHandler : MonoBehaviour
         InitPlayers();
         InitQuestions();
         activePhase = Phase.CHOOSING;
+        questionPanel = GameObject.Find("QuestionPanel");
+        anim = questionPanel.GetComponent<Animator>();
+        anim.enabled = false;
     }
 
 
@@ -98,7 +103,9 @@ public class SceneHandler : MonoBehaviour
             return;
         }
 
-        Debug.Log(question.GetText());
+        questionPanel.GetComponentInChildren<Text>().text = question.GetText();
+        anim.enabled = true;
+        anim.Play("New Animation");
     }
 
     private Question FindByCode(string code)
