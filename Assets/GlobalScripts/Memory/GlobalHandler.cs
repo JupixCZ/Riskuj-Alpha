@@ -40,6 +40,33 @@ public static class GlobalHandler
         }
     }
 
+    public static void DeactivatePlayers()
+    {
+        foreach (Player player in players)
+        {
+            player.SetActive(false);
+        }
+    }
+
+    public static void ActivePlayerClaimPrize(Question question)
+    {
+        Player activePlayer = null;
+        foreach (Player player in players)
+        {
+            if (player.IsActive()) {
+                activePlayer = player;
+                break;
+            }
+        }
+
+        if (activePlayer == null) {
+            //TODO LOGGER
+            return;
+        }
+
+        activePlayer.AddToBalance(question.GetPrize());
+    }
+
     private static Player GetPlayerByArrowCode(string keyCode) {
         int playersCount = players.Count;
 

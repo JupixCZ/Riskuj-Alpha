@@ -9,14 +9,18 @@ public class SceneHandler : MonoBehaviour
     private enum Phase { CHOOSING, READING, WAITING, ANSWERING, RESOLUTING };
     private Phase activePhase;
     private List<Question> questions;
+    private Question activeQuestion;
     private GameObject questionPanel;
+    private GameObject activeQuestionButton;
     private Animator anim;
 
     private string firstKey;
     private string secondKey;
     private bool resolvingKey = false;
+
     private bool answeringAwaitingSpacebar;
-    private bool answeringAwaitingPlayer;
+    private bool answeringTimerRunning;
+    private bool answeringPlayerAnswering;
     private int answeringTimerSec;
 
     // Use this for initialization
@@ -103,26 +107,35 @@ public class SceneHandler : MonoBehaviour
         }
 
         string finalKeyCode = firstKey + secondKey;
-        Question question = FindByCode(finalKeyCode);
+        activeQuestion = FindByCode(finalKeyCode);
 
-        if (question == null)
+        if (activeQuestion == null)
         {
             Debug.Log("Question for code " + finalKeyCode + " not found");
             return;
         }
 
-        EnterAnsweringPhase(question);
+        activeQuestionButton = GameObject.Find(finalKeyCode);
+
+        if (activeQuestionButton == null)
+        {
+            Debug.Log("Button for code " + finalKeyCode + " not found");
+            return;
+        }
+
+        EnterAnsweringPhase();
     }
 
-    private void EnterAnsweringPhase(Question question)
+    private void EnterAnsweringPhase()
     {
-        questionPanel.GetComponentInChildren<Text>().text = question.GetText();
+        questionPanel.GetComponentInChildren<Text>().text = activeQuestion.GetText();
 
         anim.enabled = true;
         anim.Play("QuestionSlideIn");
 
         activePhase = Phase.ANSWERING;
 
+        answeringPlayerAnswering = false;
         answeringAwaitingSpacebar = true;
         answeringTimerSec = 3;
     }
@@ -135,15 +148,40 @@ public class SceneHandler : MonoBehaviour
             if (KeyUtil.IsSpacebar(keyCode))
             {
                 answeringAwaitingSpacebar = false;
-                answeringAwaitingPlayer = true;
+                answeringTimerRunning = true;
                 //TODO TIMER NOW
             }
         }
-        else if (answeringAwaitingPlayer)
+        else if (answeringTimerRunning)
         {
             if (KeyUtil.IsPlayerArrow(keyCode))
             {
+                answeringPlayerAnswering = true;
                 GlobalHandler.ActivatePlayerByArrowCode(keyCode);
+            }
+            else if (answeringPlayerAnswering)
+            {
+                if (KeyUtil.IsSpacebar(keyCode))
+                {
+                    GlobalHandler.ActivePlayerClaimPrize(activeQuestion);
+                    GlobalHandler.DeactivatePlayers();
+
+                    questions.Remove(activeQuestion);
+                    activeQuestionButton.SetActive(false);
+
+                    activeQuestionButton = null;
+                    activeQuestion = null;
+                    activePhase = Phase.CHOOSING;
+
+                    anim.Play("QuestionSlideOut");
+                }
+                else if (KeyUtil.IsCtrl(keyCode))
+                {
+                    answeringAwaitingSpacebar = false;
+                    answeringTimerRunning = true;
+                    // less time
+                    //TODO TIMER NOW
+                }
             }
         }
     }

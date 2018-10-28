@@ -5,6 +5,7 @@ using UnityEngine;
 public static class KeyUtil
 {
     private const string SPACEBAR = "space";
+    private const string CTRL = "ctrl";
     private const string ARROW_LEFT = "left";
     private const string ARROW_RIGHT = "right";
     private const string ARROW_DOWN = "down";
@@ -25,6 +26,10 @@ public static class KeyUtil
     public static bool IsPlayerArrow(string keyCode)
     {
         return System.Array.IndexOf(playerArrowCodes, keyCode) != -1;
+    }
+
+    public static bool IsCtrl(string keyCode) {
+        return keyCode.Equals(CTRL);
     }
 
     public static string ConvertKeyInput()
