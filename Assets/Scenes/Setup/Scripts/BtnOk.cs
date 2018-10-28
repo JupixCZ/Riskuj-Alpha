@@ -10,7 +10,7 @@ public class BtnOk : MonoBehaviour {
         string player1Name = GameObject.Find("IFfirstPlayer").GetComponent<InputField>().text;
         string player2Name = GameObject.Find("IFsecondPlayer").GetComponent<InputField>().text;
 
-        GlobalStats.initPlayers(player1Name, player2Name, null);
+        GlobalHandler.initPlayers(player1Name, player2Name, null);
 
         //ScenesHandler.register(mainHandler);
         //ScenesHandler.startFirstRound();

@@ -19,15 +19,15 @@ public class ScoreComponent : MonoBehaviour {
             return;
         }
 
-        updateBalance();
+        UpdateBalance();
 	}
 
-    public void setPlayer(Player player) {
+    public void SetPlayer(Player player) {
         this.player = player;
     }
 
-    private void updateBalance() {
-        int balance = player.getBalance();
+    private void UpdateBalance() {
+        int balance = player.GetBalance();
         this.balanceText.text = balance.ToString();
     }
 }

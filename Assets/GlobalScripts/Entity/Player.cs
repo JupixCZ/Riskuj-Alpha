@@ -2,31 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player {
-
+public class Player
+{
     private string name;
     private int balance;
     private int premium;
+    private bool active;
 
-    public Player(string name) {
+    public Player(string name)
+    {
         this.name = name;
         this.balance = 0;
         this.premium = 0;
+        this.active = false;
     }
 
-    public string getName() {
+    public string GetName()
+    {
         return this.name;
     }
 
-    public int getBalance() {
+    public int GetBalance()
+    {
         return this.balance;
     }
 
-    public void addToBalance(int num) {
+    public void AddToBalance(int num)
+    {
         this.balance += num;
     }
 
-    public int getPremium() {
+    public int GetPremium()
+    {
         return this.premium;
+    }
+
+    public bool IsActive()
+    {
+        return active;
+    }
+
+    public void SetActive(bool active)
+    {
+        this.active = active;
     }
 }

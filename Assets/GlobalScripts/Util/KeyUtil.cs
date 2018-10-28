@@ -4,9 +4,76 @@ using UnityEngine;
 
 public static class KeyUtil
 {
-    private static string[] numKeyCodes = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    private const string SPACEBAR = "space";
+    private const string ARROW_LEFT = "left";
+    private const string ARROW_RIGHT = "right";
+    private const string ARROW_DOWN = "down";
 
-    public static bool IsNumber(string keyCode) {
+    private static string[] numKeyCodes = new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+    private static string[] playerArrowCodes = new string[] { ARROW_LEFT, ARROW_RIGHT, ARROW_DOWN };
+
+    public static bool IsNumber(string keyCode)
+    {
         return System.Array.IndexOf(numKeyCodes, keyCode) != -1;
+    }
+
+    public static bool IsSpacebar(string keyCode)
+    {
+        return keyCode.Equals(SPACEBAR);
+    }
+
+    public static bool IsPlayerArrow(string keyCode)
+    {
+        return System.Array.IndexOf(playerArrowCodes, keyCode) != -1;
+    }
+
+    public static string ConvertKeyInput()
+    {
+        if (Input.GetKeyDown(SPACEBAR))
+        {
+            return SPACEBAR;
+        }
+
+        if (Input.GetKeyDown(ARROW_LEFT))
+        {
+            return ARROW_LEFT;
+        }
+
+        if (Input.GetKeyDown(ARROW_RIGHT))
+        {
+            return ARROW_RIGHT;
+        }
+
+        if (Input.GetKeyDown(ARROW_DOWN))
+        {
+            return ARROW_DOWN;
+        }
+
+        return Input.inputString;
+    }
+
+    public static int GetPlayerIndexByArrowCode(int playersCount, string keyCode)
+    {
+        //TODO LOGGING
+
+        if (playersCount == 2)
+        {
+            switch (keyCode)
+            {
+                case ARROW_LEFT: return 0;
+                case ARROW_RIGHT: return 1;
+            }
+        }
+        else if (playersCount == 3)
+        {
+            switch (keyCode)
+            {
+                case ARROW_LEFT: return 0;
+                case ARROW_DOWN: return 1;
+                case ARROW_RIGHT: return 2;
+            }
+        }
+
+        return 0;
     }
 }

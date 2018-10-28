@@ -9,11 +9,15 @@ public class SceneHandler : MonoBehaviour
     private enum Phase { CHOOSING, READING, WAITING, ANSWERING, RESOLUTING };
     private Phase activePhase;
     private List<Question> questions;
+    private GameObject questionPanel;
+    private Animator anim;
+
     private string firstKey;
     private string secondKey;
     private bool resolvingKey = false;
-    private GameObject questionPanel;
-    private Animator anim;
+    private bool answeringAwaitingSpacebar;
+    private bool answeringAwaitingPlayer;
+    private int answeringTimerSec;
 
     // Use this for initialization
     void Start()
@@ -31,21 +35,22 @@ public class SceneHandler : MonoBehaviour
     {
         if (Input.anyKeyDown)
         {
-            ResolveKeyInput(Input.inputString);
+            string inputString = KeyUtil.ConvertKeyInput();
+            ResolveKeyInput(inputString);
         }
     }
 
     public void InitPlayers()
     {
-        Player firstPlayer = GlobalStats.getPlayer(1);
-        GameObject.Find("FirstPlayerName").GetComponentInChildren<Text>().text = firstPlayer.getName();
-        GameObject.Find("FirstPlayerScore").GetComponent<ScoreComponent>().setPlayer(firstPlayer);
+        Player firstPlayer = GlobalHandler.getPlayer(1);
+        GameObject.Find("FirstPlayerName").GetComponent<NameComponent>().SetPlayer(firstPlayer);
+        GameObject.Find("FirstPlayerScore").GetComponent<ScoreComponent>().SetPlayer(firstPlayer);
 
-        Player secondPlayer = GlobalStats.getPlayer(2);
-        GameObject.Find("SecondPlayerName").GetComponentInChildren<Text>().text = secondPlayer.getName();
-        GameObject.Find("SecondPlayerScore").GetComponent<ScoreComponent>().setPlayer(secondPlayer);
+        Player secondPlayer = GlobalHandler.getPlayer(2);
+        GameObject.Find("SecondPlayerName").GetComponent<NameComponent>().SetPlayer(secondPlayer);
+        GameObject.Find("SecondPlayerScore").GetComponent<ScoreComponent>().SetPlayer(secondPlayer);
 
-        Player thirdPlayer = GlobalStats.getPlayer(3);
+        Player thirdPlayer = GlobalHandler.getPlayer(3);
         //TODO
     }
 
@@ -70,10 +75,12 @@ public class SceneHandler : MonoBehaviour
 
     private void ResolveKeyInput(string keyCode)
     {
-        if (activePhase == Phase.CHOOSING)
+        switch (activePhase)
         {
-            ResolveChoosingPhaseKeyInput(keyCode);
+            case Phase.CHOOSING: ResolveChoosingPhaseKeyInput(keyCode); break;
+            case Phase.ANSWERING: ResolveAnsweringPhaseKeyInput(keyCode); break;
         }
+
     }
 
     private void ResolveChoosingPhaseKeyInput(string keyCode)
@@ -98,14 +105,47 @@ public class SceneHandler : MonoBehaviour
         string finalKeyCode = firstKey + secondKey;
         Question question = FindByCode(finalKeyCode);
 
-        if (question == null) {
+        if (question == null)
+        {
             Debug.Log("Question for code " + finalKeyCode + " not found");
             return;
         }
 
+        EnterAnsweringPhase(question);
+    }
+
+    private void EnterAnsweringPhase(Question question)
+    {
         questionPanel.GetComponentInChildren<Text>().text = question.GetText();
+
         anim.enabled = true;
-        anim.Play("New Animation");
+        anim.Play("QuestionSlideIn");
+
+        activePhase = Phase.ANSWERING;
+
+        answeringAwaitingSpacebar = true;
+        answeringTimerSec = 3;
+    }
+
+    private void ResolveAnsweringPhaseKeyInput(string keyCode)
+    {
+        //anim.Play("QuestionSlideOut");
+        if (answeringAwaitingSpacebar)
+        {
+            if (KeyUtil.IsSpacebar(keyCode))
+            {
+                answeringAwaitingSpacebar = false;
+                answeringAwaitingPlayer = true;
+                //TODO TIMER NOW
+            }
+        }
+        else if (answeringAwaitingPlayer)
+        {
+            if (KeyUtil.IsPlayerArrow(keyCode))
+            {
+                GlobalHandler.ActivatePlayerByArrowCode(keyCode);
+            }
+        }
     }
 
     private Question FindByCode(string code)
