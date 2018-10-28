@@ -85,7 +85,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GlobalScripts\Entity\Player.cs" />
+    <Compile Include="Assets\GlobalScripts\Entity\Question.cs" />
     <Compile Include="Assets\GlobalScripts\Memory\GlobalStats.cs" />
+    <Compile Include="Assets\GlobalScripts\Util\KeyUtil.cs" />
+    <Compile Include="Assets\Scenes\FirstRound\Scripts\SceneHandler.cs" />
+    <Compile Include="Assets\Scenes\FirstRound\Scripts\ScoreComponent.cs" />
     <Compile Include="Assets\Scenes\Sequence\Scripts\IntroTimer.cs" />
     <Compile Include="Assets\Scenes\Setup\Scripts\BtnOk.cs" />
     <Compile Include="Assets\Script Examples\ModifyBtnText.cs" />

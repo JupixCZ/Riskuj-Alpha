@@ -13,4 +13,20 @@ public class Player {
         this.balance = 0;
         this.premium = 0;
     }
+
+    public string getName() {
+        return this.name;
+    }
+
+    public int getBalance() {
+        return this.balance;
+    }
+
+    public void addToBalance(int num) {
+        this.balance += num;
+    }
+
+    public int getPremium() {
+        return this.premium;
+    }
 }

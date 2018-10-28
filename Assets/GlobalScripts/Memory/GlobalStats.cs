@@ -24,4 +24,12 @@ public static class GlobalStats
     {
         players.Add(new Player(name));
     }
+
+    public static Player getPlayer(int num) {
+        if (num > players.Count) {
+            return null;
+        }
+
+        return players[num - 1];
+    }
 }
