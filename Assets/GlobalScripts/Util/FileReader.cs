@@ -45,7 +45,7 @@ public static class FileReader
         string text = GetQuestionText(processedString);
         string code = themeNum.ToString() + "0";
 
-        Question topicQuestion = new Question(code, text, 5000, true, false);
+        Question topicQuestion = new Question(code, text, 5000, false);
         topicQuestion.SetTopicName(topicName);
         topicQuestions.Add(topicQuestion);
 
@@ -65,7 +65,7 @@ public static class FileReader
         string text = GetQuestionText(processedString);
         bool ingot = IsQuestionIngot(text);
 
-        return new Question(code, text, prize, false, ingot);
+        return new Question(code, text, prize, ingot);
     }
 
     private static string GetQuestionText(string processedString) {

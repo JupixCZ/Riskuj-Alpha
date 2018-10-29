@@ -1,5 +1,5 @@
 ﻿[PRVNI_KOLO]
-[TEMA=Testovací téma]=Víš, že je toto testovací téma?;
+[TEMA=Super]=Víš, že je toto testovací téma?;
 [1000]=Jaj první otázka, víš?;
 [2000]=A tak zkusíme druhou.;
 [3000]=***;

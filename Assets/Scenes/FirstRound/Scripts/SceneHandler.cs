@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SceneHandler : MonoBehaviour
 {
 
-    private enum Phase { CHOOSING, READING, WAITING, ANSWERING, RESOLUTING };
+    private enum Phase { CHOOSING, READING, WAITING, ANSWERING, RESOLUTING, INGOT };
     private Phase activePhase;
     private List<Question> questions;
     private Question activeQuestion;
@@ -37,7 +37,8 @@ public class SceneHandler : MonoBehaviour
 
     void Update()
     {
-        if (answeringTimerRunning) {
+        if (answeringTimerRunning)
+        {
             UpdateTimer();
         }
 
@@ -68,7 +69,8 @@ public class SceneHandler : MonoBehaviour
         PairQuestionsWithButtons(questions);
     }
 
-    private void PairQuestionsWithButtons(List<Question> questions) {
+    private void PairQuestionsWithButtons(List<Question> questions)
+    {
         GameObject button = null;
         foreach (Question question in questions)
         {
@@ -77,32 +79,38 @@ public class SceneHandler : MonoBehaviour
         }
     }
 
-    private void InitTimer() {
+    private void InitTimer()
+    {
         timerBtns = new List<GameObject>();
 
         string timerBtnString = "BtnTime";
 
-        for (int i = 1; i < 34; i++) {
+        for (int i = 1; i < 34; i++)
+        {
             GameObject timerBtn = GameObject.Find(timerBtnString + i);
             timerBtn.SetActive(false);
             timerBtns.Add(timerBtn);
         }
     }
 
-    private void UpdateTimer() {
+    private void UpdateTimer()
+    {
         float currentAnsweringTime = Time.time - startAnsweringTime;
         float timePercentileExpired = currentAnsweringTime / (answeringTimerSec / 100);
 
-        if (timePercentileExpired > 100) {
+        if (timePercentileExpired > 100)
+        {
             SetupResolutingPhase();
             return;
         }
 
-        int btnCountToShow = (int) timePercentileExpired / 3;
+        int btnCountToShow = (int)timePercentileExpired / 3;
         int currentBtn = 1;
 
-        foreach (GameObject timerBtn in timerBtns) {
-            if (currentBtn > btnCountToShow) {
+        foreach (GameObject timerBtn in timerBtns)
+        {
+            if (currentBtn > btnCountToShow)
+            {
                 break;
             }
 
@@ -111,15 +119,18 @@ public class SceneHandler : MonoBehaviour
         }
     }
 
-    private void StopTimer() {
+    private void StopTimer()
+    {
         answeringTimerRunning = false;
 
-        foreach (GameObject timerBtn in timerBtns) {
+        foreach (GameObject timerBtn in timerBtns)
+        {
             timerBtn.SetActive(false);
         }
     }
 
-    private void StartTimer() {
+    private void StartTimer()
+    {
         startAnsweringTime = Time.time;
         answeringTimerRunning = true;
     }
@@ -133,6 +144,7 @@ public class SceneHandler : MonoBehaviour
             case Phase.WAITING: ResolveWaitingPhaseKeyInput(keyCode); break;
             case Phase.ANSWERING: ResolveAnsweringPhaseKeyInput(keyCode); break;
             case Phase.RESOLUTING: ResolveResolutingPhaseKeyInput(keyCode); break;
+            case Phase.INGOT: ResolveIngotPhaseKeyInput(keyCode); break;
         }
     }
 
@@ -172,7 +184,14 @@ public class SceneHandler : MonoBehaviour
             return;
         }
 
-        SetupReadingPhase();
+        if (activeQuestion.IsIngot())
+        {
+            SetupIngotPhase();
+        }
+        else
+        {
+            SetupReadingPhase();
+        }
     }
 
     private void SetupReadingPhase()
@@ -243,7 +262,8 @@ public class SceneHandler : MonoBehaviour
             GlobalHandler.ActivePlayerFailed(activeQuestion);
             GlobalHandler.DeactivatePlayers();
 
-            if (GlobalHandler.AnyAnsweringPlayerLeft()) {
+            if (GlobalHandler.AnyAnsweringPlayerLeft())
+            {
                 SetupWaitingPhase();
             }
             else
@@ -256,7 +276,8 @@ public class SceneHandler : MonoBehaviour
 
     private void SetupNewChoosingPhase(bool claimPrize)
     {
-        if (claimPrize) {
+        if (claimPrize)
+        {
             GlobalHandler.ActivePlayerClaimPrize(activeQuestion);
         }
 
@@ -272,7 +293,8 @@ public class SceneHandler : MonoBehaviour
         anim.Play("QuestionSlideOut");
     }
 
-    private void SetupResolutingPhase() {
+    private void SetupResolutingPhase()
+    {
         StopTimer();
         activePhase = Phase.RESOLUTING;
     }
@@ -288,6 +310,44 @@ public class SceneHandler : MonoBehaviour
             }
 
             SetupNewChoosingPhase(false);
+        }
+    }
+
+    private void SetupIngotPhase()
+    {
+        questionPanel.GetComponentInChildren<Text>().text = "Bronzová cihlička";
+
+        anim.enabled = true;
+        anim.Play("QuestionSlideIn");
+
+        activePhase = Phase.INGOT;
+    }
+
+    private void ResolveIngotPhaseKeyInput(string keyCode)
+    {
+
+        Player player;
+
+        if (KeyUtil.IsPlayerArrow(keyCode))
+        {
+            player = GlobalHandler.ActivatePlayerByArrowCode(keyCode, false);
+        }
+        else if (KeyUtil.IsSpacebar(keyCode))
+        {
+
+            player = GlobalHandler.GetActivePlayer();
+            if (player == null)
+            {
+                return;
+            }
+
+            if (questions.Count == 1)
+            {
+                // END OF ROUND
+                return;
+            }
+
+            SetupNewChoosingPhase(true);
         }
     }
 

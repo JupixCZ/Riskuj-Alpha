@@ -73,7 +73,7 @@ public static class GlobalHandler
         activePlayer.AnsweredWrong(question.GetPrize());
     }
 
-    private static Player GetActivePlayer()
+    public static Player GetActivePlayer()
     {
         Player activePlayer = null;
         foreach (Player player in players)
