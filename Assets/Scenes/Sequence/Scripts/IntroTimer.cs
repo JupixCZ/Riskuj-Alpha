@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 public class IntroTimer : MonoBehaviour {
 
 	void Start () {
-        // StartCoroutine(play(14f));
-        StartCoroutine(StartFirstRound(1f));
+        StartCoroutine(StartFirstRound());
     }
 
-    public IEnumerator StartFirstRound(float delayTime)
+    public IEnumerator StartFirstRound()
     {
+        float delayTime = GlobalHandler.IsDebugMode() ? 1f : 14f;
+
         yield return new WaitForSecondsRealtime(delayTime);
         SceneManager.LoadScene("FirstRound");
     }

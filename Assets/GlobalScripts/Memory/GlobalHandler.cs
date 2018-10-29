@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class GlobalHandler
 {
-
+    private static bool debugMode = false;
     private static List<Player> players;
 
     public static void InitPlayers(string name1, string name2, string name3)
@@ -128,5 +128,13 @@ public static class GlobalHandler
         }
 
         return playerByArrowCode;
+    }
+
+    public static void ActivateDebugMode() {
+        debugMode = true;
+    }
+
+    public static bool IsDebugMode() {
+        return debugMode;
     }
 }

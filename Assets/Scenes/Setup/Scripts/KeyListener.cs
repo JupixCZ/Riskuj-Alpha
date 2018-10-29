@@ -26,7 +26,7 @@ public class KeyListener : MonoBehaviour
             string player2Name = infSecondPlayer.text;
             string player3Name = null;
 
-            if (System.String.IsNullOrEmpty(player1Name)  || System.String.IsNullOrEmpty(player2Name))
+            if (System.String.IsNullOrEmpty(player1Name) || System.String.IsNullOrEmpty(player2Name))
             {
                 return;
             }
@@ -50,6 +50,9 @@ public class KeyListener : MonoBehaviour
                 selectedInfIndex++;
                 SelectInputField();
             }
+        }
+        else if (Input.GetKeyDown(KeyCode.F1)) {
+            GlobalHandler.ActivateDebugMode();
         }
     }
 
