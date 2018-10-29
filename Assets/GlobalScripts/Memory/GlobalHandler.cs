@@ -66,13 +66,15 @@ public static class GlobalHandler
         activePlayer.AddToBalance(question.GetPrize());
     }
 
-    public static void ActivePlayerFailed(Question question) {
+    public static void ActivePlayerFailed(Question question)
+    {
         Player activePlayer = GetActivePlayer();
 
         activePlayer.AnsweredWrong(question.GetPrize());
     }
 
-    private static Player GetActivePlayer() {
+    private static Player GetActivePlayer()
+    {
         Player activePlayer = null;
         foreach (Player player in players)
         {
@@ -92,11 +94,25 @@ public static class GlobalHandler
         return activePlayer;
     }
 
-    public static void RefreshPlayers() {
+    public static void RefreshPlayers()
+    {
         foreach (Player player in players)
         {
             player.RefreshAnswering();
         }
+    }
+
+    public static bool AnyAnsweringPlayerLeft()
+    {
+        foreach (Player player in players)
+        {
+            if (!player.IsWrongAnswer())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static Player GetPlayerByArrowCode(string keyCode, bool notAnsweredOnly)

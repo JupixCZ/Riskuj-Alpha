@@ -10,6 +10,7 @@ public class SceneHandler : MonoBehaviour
     private Phase activePhase;
     private List<Question> questions;
     private Question activeQuestion;
+    private List<GameObject> timerBtns;
     private GameObject questionPanel;
     private GameObject activeQuestionButton;
     private Animator anim;
@@ -18,22 +19,28 @@ public class SceneHandler : MonoBehaviour
     private string secondKey;
 
     private bool answeringTimerRunning;
-    private int answeringTimerSec;
+    private float startAnsweringTime;
+    private float answeringTimerSec;
 
     // Use this for initialization
     void Start()
     {
         InitPlayers();
         InitQuestions();
+        InitTimer();
         activePhase = Phase.CHOOSING;
         questionPanel = GameObject.Find("QuestionPanel");
         anim = questionPanel.GetComponent<Animator>();
         anim.enabled = false;
+        answeringTimerRunning = false;
     }
-
 
     void Update()
     {
+        if (answeringTimerRunning) {
+            UpdateTimer();
+        }
+
         if (Input.anyKeyDown)
         {
             string inputString = KeyUtil.ConvertKeyInput();
@@ -74,6 +81,54 @@ public class SceneHandler : MonoBehaviour
         }
     }
 
+    private void InitTimer() {
+        timerBtns = new List<GameObject>();
+
+        string timerBtnString = "BtnTime";
+
+        for (int i = 1; i < 34; i++) {
+            GameObject timerBtn = GameObject.Find(timerBtnString + i);
+            timerBtn.SetActive(false);
+            timerBtns.Add(timerBtn);
+        }
+    }
+
+    private void UpdateTimer() {
+        float currentAnsweringTime = Time.time - startAnsweringTime;
+        float timePercentileExpired = currentAnsweringTime / (answeringTimerSec / 100);
+
+        if (timePercentileExpired > 100) {
+            SetupResolutingPhase();
+            return;
+        }
+        Debug.Log(timePercentileExpired);
+
+        int btnCountToShow = (int) timePercentileExpired / 3;
+        int currentBtn = 1;
+
+        foreach (GameObject timerBtn in timerBtns) {
+            if (currentBtn > btnCountToShow) {
+                break;
+            }
+
+            timerBtn.SetActive(true);
+            currentBtn++;
+        }
+    }
+
+    private void StopTimer() {
+        answeringTimerRunning = false;
+
+        foreach (GameObject timerBtn in timerBtns) {
+            timerBtn.SetActive(false);
+        }
+    }
+
+    private void StartTimer() {
+        startAnsweringTime = Time.time;
+        answeringTimerRunning = true;
+    }
+
     private void ResolveKeyInput(string keyCode)
     {
         switch (activePhase)
@@ -82,6 +137,7 @@ public class SceneHandler : MonoBehaviour
             case Phase.READING: ResolveReadingPhaseKeyInput(keyCode); break;
             case Phase.WAITING: ResolveWaitingPhaseKeyInput(keyCode); break;
             case Phase.ANSWERING: ResolveAnsweringPhaseKeyInput(keyCode); break;
+            case Phase.RESOLUTING: ResolveResolutingPhaseKeyInput(keyCode); break;
         }
     }
 
@@ -143,7 +199,6 @@ public class SceneHandler : MonoBehaviour
         if (KeyUtil.IsSpacebar(keyCode))
         {
             SetupWaitingPhase();
-            //TODO TIMER NOW
         }
     }
 
@@ -151,7 +206,7 @@ public class SceneHandler : MonoBehaviour
     {
         activePhase = Phase.WAITING;
         answeringTimerSec--;
-        answeringTimerRunning = true;
+        StartTimer();
     }
 
     private void ResolveWaitingPhaseKeyInput(string keyCode)
@@ -168,7 +223,7 @@ public class SceneHandler : MonoBehaviour
         if (player != null)
         {
             activePhase = Phase.ANSWERING;
-            //TODO STOP TIMER
+            StopTimer();
         }
     }
 
@@ -186,20 +241,30 @@ public class SceneHandler : MonoBehaviour
                 return;
             }
 
-            SetupNewChoosingPhase();
+            SetupNewChoosingPhase(true);
         }
         else if (KeyUtil.IsCtrl(keyCode))
         {
             GlobalHandler.ActivePlayerFailed(activeQuestion);
             GlobalHandler.DeactivatePlayers();
 
-            SetupWaitingPhase();
+            if (GlobalHandler.AnyAnsweringPlayerLeft()) {
+                SetupWaitingPhase();
+            }
+            else
+            {
+                SetupResolutingPhase();
+            }
+
         }
     }
 
-    private void SetupNewChoosingPhase()
+    private void SetupNewChoosingPhase(bool claimPrize)
     {
-        GlobalHandler.ActivePlayerClaimPrize(activeQuestion);
+        if (claimPrize) {
+            GlobalHandler.ActivePlayerClaimPrize(activeQuestion);
+        }
+
         GlobalHandler.DeactivatePlayers();
 
         questions.Remove(activeQuestion);
@@ -210,6 +275,25 @@ public class SceneHandler : MonoBehaviour
         activePhase = Phase.CHOOSING;
 
         anim.Play("QuestionSlideOut");
+    }
+
+    private void SetupResolutingPhase() {
+        StopTimer();
+        activePhase = Phase.RESOLUTING;
+    }
+
+    private void ResolveResolutingPhaseKeyInput(string keyCode)
+    {
+        if (KeyUtil.IsSpacebar(keyCode))
+        {
+            if (questions.Count == 1)
+            {
+                // END OF ROUND
+                return;
+            }
+
+            SetupNewChoosingPhase(false);
+        }
     }
 
     private Question FindByCode(string code)
