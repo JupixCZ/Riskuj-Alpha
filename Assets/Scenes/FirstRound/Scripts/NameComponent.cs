@@ -8,12 +8,11 @@ public class NameComponent : MonoBehaviour {
     public Text playerNameText;
     private Player player;
     private bool currentStateActive;
-	// Use this for initialization
+
 	void Start () {
         currentStateActive = false;
 	}
 
-    // Update is called once per frame
     void Update()
     {
         if (player == null)

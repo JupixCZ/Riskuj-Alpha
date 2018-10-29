@@ -15,7 +15,7 @@ Platform assembly: D:\Docs\Dokumenty\Develop\PROJECT TV SHOW\Riskuj Alpha\Bin\0.
 Loading D:\Docs\Dokumenty\Develop\PROJECT TV SHOW\Riskuj Alpha\Bin\0.1_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: D:\Docs\Dokumenty\Develop\PROJECT TV SHOW\Riskuj Alpha\Bin\0.1_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading D:\Docs\Dokumenty\Develop\PROJECT TV SHOW\Riskuj Alpha\Bin\0.1_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.019 seconds
+- Completed reload, in  0.022 seconds
 Platform assembly: D:\Docs\Dokumenty\Develop\PROJECT TV SHOW\Riskuj Alpha\Bin\0.1_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: D:\Docs\Dokumenty\Develop\PROJECT TV SHOW\Riskuj Alpha\Bin\0.1_Data\Managed\System.dll (this message is harmless)
 desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
@@ -26,19 +26,19 @@ The referenced script on this Behaviour (Game Object 'MainHandler') is missing!
  
 (Filename:  Line: 1744)
 
-UnloadTime: 0.902370 ms
+UnloadTime: 0.866076 ms
 Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 2.345830 ms
+UnloadTime: 2.379908 ms
 
-Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 248.
-Total: 0.239099 ms (FindLiveObjects: 0.035740 ms CreateObjectMapping: 0.012190 ms MarkObjects: 0.173990 ms  DeleteObjects: 0.016069 ms)
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 247.
+Total: 0.216103 ms (FindLiveObjects: 0.027151 ms CreateObjectMapping: 0.011913 ms MarkObjects: 0.162631 ms  DeleteObjects: 0.013298 ms)
 
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 424.290802 ms
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 415.410339 ms
 
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 345.
-Total: 0.233280 ms (FindLiveObjects: 0.014961 ms CreateObjectMapping: 0.011082 ms MarkObjects: 0.202527 ms  DeleteObjects: 0.004155 ms)
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 509.
+Total: 0.340778 ms (FindLiveObjects: 0.023272 ms CreateObjectMapping: 0.011636 ms MarkObjects: 0.301159 ms  DeleteObjects: 0.003878 ms)
 
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1a78 -> priority: 1 
-  Thread -> id: 14d0 -> priority: 1 
+  Thread -> id: 2428 -> priority: 1 
+  Thread -> id: 40a0 -> priority: 1 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class KeyListener : MonoBehaviour
+public class SetupSceneHandler : MonoBehaviour
 {
     public InputField infFirstPlayer;
     public InputField infSecondPlayer;
@@ -16,6 +16,7 @@ public class KeyListener : MonoBehaviour
     {
         selectedInfIndex = 1;
         SelectInputField();
+        FileReader.ParseQuestionFile();
     }
 
     public void Update()

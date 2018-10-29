@@ -6,7 +6,7 @@ using UnityEngine;
 public static class KeyUtil
 {
 
-    //TODO redo to KEYCODES!
+    //TODO redo to KEYCODES! maybe not needed at all!
     private const string SPACEBAR = "space";
     private const string CTRL = "ctrl";
     private const string ARROW_LEFT = "left";

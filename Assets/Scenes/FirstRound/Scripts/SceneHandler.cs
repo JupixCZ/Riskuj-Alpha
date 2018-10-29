@@ -64,20 +64,16 @@ public class SceneHandler : MonoBehaviour
 
     private void InitQuestions()
     {
-        questions = new List<Question>();
-        Question question = null;
-        GameObject button = null;
+        questions = FileReader.GetFirstRoundQuestions();
+        PairQuestionsWithButtons(questions);
+    }
 
-        string code = null;
-        for (int i = 1; i < 2; i++)
+    private void PairQuestionsWithButtons(List<Question> questions) {
+        GameObject button = null;
+        foreach (Question question in questions)
         {
-            for (int j = 0; j < 4; j++)
-            {
-                code = (i * 10 + j).ToString();
-                button = GameObject.Find(code);
-                question = new Question(code, Question.QuestionMode.FIRST_ROUND, "tak co myslíš " + code, button);
-                questions.Add(question);
-            }
+            button = GameObject.Find(question.GetCode());
+            question.SetButton(button);
         }
     }
 
@@ -101,7 +97,6 @@ public class SceneHandler : MonoBehaviour
             SetupResolutingPhase();
             return;
         }
-        Debug.Log(timePercentileExpired);
 
         int btnCountToShow = (int) timePercentileExpired / 3;
         int currentBtn = 1;
