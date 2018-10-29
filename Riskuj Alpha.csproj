@@ -92,7 +92,7 @@
     <Compile Include="Assets\Scenes\FirstRound\Scripts\SceneHandler.cs" />
     <Compile Include="Assets\Scenes\FirstRound\Scripts\ScoreComponent.cs" />
     <Compile Include="Assets\Scenes\Sequence\Scripts\IntroTimer.cs" />
-    <Compile Include="Assets\Scenes\Setup\Scripts\BtnOk.cs" />
+    <Compile Include="Assets\Scenes\Setup\Scripts\KeyListener.cs" />
     <Compile Include="Assets\Script Examples\ModifyBtnText.cs" />
     <Compile Include="Assets\Script Examples\SceneManagement.cs" />
   </ItemGroup>

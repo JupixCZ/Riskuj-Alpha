@@ -7,7 +7,7 @@ public static class GlobalHandler
 
     private static List<Player> players;
 
-    public static void initPlayers(string name1, string name2, string name3)
+    public static void InitPlayers(string name1, string name2, string name3)
     {
         players = new List<Player>();
 
