@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scenes\FirstRound\Scripts\NameComponent.cs" />
     <Compile Include="Assets\Scenes\FirstRound\Scripts\SceneHandler.cs" />
     <Compile Include="Assets\Scenes\FirstRound\Scripts\ScoreComponent.cs" />
+    <Compile Include="Assets\Scenes\Sequence\Scripts\FirstRoundSeqTimer.cs" />
     <Compile Include="Assets\Scenes\Sequence\Scripts\IntroTimer.cs" />
     <Compile Include="Assets\Scenes\Setup\Scripts\SetupSceneHandler.cs" />
   </ItemGroup>

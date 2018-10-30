@@ -15,6 +15,9 @@ public class SceneHandler : MonoBehaviour
     private GameObject activeQuestionButton;
     private Animator anim;
 
+    private AudioSource audioSource;
+    private AudioClip questionSound;
+
     private string firstKey;
     private string secondKey;
 
@@ -28,6 +31,7 @@ public class SceneHandler : MonoBehaviour
         InitPlayers();
         InitQuestions();
         InitTimer();
+        InitSounds();
         activePhase = Phase.CHOOSING;
         questionPanel = GameObject.Find("QuestionPanel");
         anim = questionPanel.GetComponent<Animator>();
@@ -61,6 +65,11 @@ public class SceneHandler : MonoBehaviour
 
         Player thirdPlayer = GlobalHandler.getPlayer(3);
         //TODO
+    }
+
+    private void InitSounds() {
+        audioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
+        questionSound = Resources.Load<AudioClip>("Sound/question");
     }
 
     private void InitQuestions()
@@ -202,6 +211,7 @@ public class SceneHandler : MonoBehaviour
 
         anim.enabled = true;
         anim.Play("QuestionSlideIn");
+        audioSource.PlayOneShot(questionSound);
 
         activePhase = Phase.READING;
 

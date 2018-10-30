@@ -34,7 +34,7 @@ public class SetupSceneHandler : MonoBehaviour
 
             GlobalHandler.InitPlayers(player1Name, player2Name, player3Name);
 
-            SceneManager.LoadScene("Intro");
+            SceneManager.LoadScene("FirstRoundSeq");
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
