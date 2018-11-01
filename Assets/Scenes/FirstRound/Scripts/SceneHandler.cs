@@ -16,7 +16,10 @@ public class SceneHandler : MonoBehaviour
     private Animator anim;
 
     private AudioSource audioSource;
+    private AudioClip aplausSound;
+    private AudioClip ingotSound;
     private AudioClip questionSound;
+    private AudioClip failSound;
 
     private string firstKey;
     private string secondKey;
@@ -67,9 +70,13 @@ public class SceneHandler : MonoBehaviour
         //TODO
     }
 
-    private void InitSounds() {
+    private void InitSounds()
+    {
         audioSource = GameObject.Find("AudioSource").GetComponent<AudioSource>();
+        aplausSound = Resources.Load<AudioClip>("Sound/aplaus");
+        ingotSound = Resources.Load<AudioClip>("Sound/ingot");
         questionSound = Resources.Load<AudioClip>("Sound/question");
+        failSound = Resources.Load<AudioClip>("Sound/fail");
     }
 
     private void InitQuestions()
@@ -109,6 +116,12 @@ public class SceneHandler : MonoBehaviour
 
         if (timePercentileExpired > 100)
         {
+            if (activeQuestion.IsTopic()) {
+                StopTimer();
+                return;
+            }
+
+            audioSource.PlayOneShot(failSound);
             SetupResolutingPhase();
             return;
         }
@@ -269,6 +282,13 @@ public class SceneHandler : MonoBehaviour
         }
         else if (KeyUtil.IsCtrl(keyCode))
         {
+            if (activeQuestion.IsTopic())
+            {
+                StopTimer();
+                SetupNewChoosingPhase(false);
+                return;
+            }
+
             GlobalHandler.ActivePlayerFailed(activeQuestion);
             GlobalHandler.DeactivatePlayers();
 
@@ -289,6 +309,7 @@ public class SceneHandler : MonoBehaviour
         if (claimPrize)
         {
             GlobalHandler.ActivePlayerClaimPrize(activeQuestion);
+            audioSource.PlayOneShot(aplausSound);
         }
 
         GlobalHandler.DeactivatePlayers();
@@ -327,6 +348,7 @@ public class SceneHandler : MonoBehaviour
     {
         questionPanel.GetComponentInChildren<Text>().text = "Bronzová cihlička";
 
+        audioSource.PlayOneShot(ingotSound);
         anim.enabled = true;
         anim.Play("QuestionSlideIn");
 

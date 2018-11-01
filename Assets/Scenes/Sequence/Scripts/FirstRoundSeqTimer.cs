@@ -12,7 +12,7 @@ public class FirstRoundSeqTimer : MonoBehaviour {
 
     public IEnumerator StartFirstRound()
     {
-        float delayTime = GlobalHandler.IsDebugMode() ? 1f : 4f;
+        float delayTime = GlobalHandler.IsDebugMode() ? 1f : 5f;
 
         yield return new WaitForSecondsRealtime(delayTime);
         SceneManager.LoadScene("FirstRound");
