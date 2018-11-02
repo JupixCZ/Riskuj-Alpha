@@ -8,10 +8,14 @@ public class NameComponent : MonoBehaviour {
     public Text playerNameText;
     private Player player;
     private bool currentStateActive;
+    private Sprite imgActive;
+    private Sprite imgInactive;
 
-	void Start () {
+    void Start () {
         currentStateActive = false;
-	}
+        imgActive = Resources.Load<Sprite>("Image/selectedQuestion");
+        imgInactive = Resources.Load<Sprite>("Image/topic");
+    }
 
     void Update()
     {
@@ -33,10 +37,10 @@ public class NameComponent : MonoBehaviour {
     {
         bool active = player.IsActive();
         if (active && !currentStateActive) {
-            GetComponent<Image>().color = Color.red;
+            GetComponent<Image>().sprite = imgActive;
             currentStateActive = true;
         } else if (!active && currentStateActive) {
-            GetComponent<Image>().color = Color.white;
+            GetComponent<Image>().sprite = imgInactive;
             currentStateActive = false;
         }
     }

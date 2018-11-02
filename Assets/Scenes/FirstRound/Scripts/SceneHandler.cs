@@ -13,6 +13,7 @@ public class SceneHandler : MonoBehaviour
     private List<GameObject> timerBtns;
     private GameObject questionPanel;
     private GameObject activeQuestionButton;
+    private Sprite imgSelectedQuestion;
     private Animator anim;
 
     private AudioSource audioSource;
@@ -37,6 +38,7 @@ public class SceneHandler : MonoBehaviour
         InitSounds();
         activePhase = Phase.CHOOSING;
         questionPanel = GameObject.Find("QuestionPanel");
+        imgSelectedQuestion = Resources.Load<Sprite>("Image/selectedQuestion");
         anim = questionPanel.GetComponent<Animator>();
         anim.enabled = false;
         answeringTimerRunning = false;
@@ -206,6 +208,8 @@ public class SceneHandler : MonoBehaviour
             return;
         }
 
+        activeQuestionButton.GetComponent<Image>().sprite = imgSelectedQuestion;
+
         if (activeQuestion.IsIngot())
         {
             SetupIngotPhase();
@@ -300,7 +304,6 @@ public class SceneHandler : MonoBehaviour
             {
                 SetupResolutingPhase();
             }
-
         }
     }
 

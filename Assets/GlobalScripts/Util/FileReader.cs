@@ -25,15 +25,15 @@ public static class FileReader
 
         List<Question> questions = new List<Question>();
 
-        for (int i = 1; i < 2; i++) {
-            List<Question> topicQuestions = GetFirstRoundTopicQuestions(processedString, i);
+        for (int i = 1; i < 6; i++) {
+            List<Question> topicQuestions = GetFirstRoundTopicQuestions(i);
             questions.AddRange(topicQuestions);
         }
 
         return questions;
     }
 
-    private static List<Question> GetFirstRoundTopicQuestions(string processedString, int themeNum) {
+    private static List<Question> GetFirstRoundTopicQuestions(int themeNum) {
         List<Question> topicQuestions = new List<Question>();
 
         processedString = TrimUntil(processedString, "[TEMA=");
@@ -49,7 +49,7 @@ public static class FileReader
         topicQuestion.SetTopicName(topicName);
         topicQuestions.Add(topicQuestion);
 
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < 6; i++) {
             Question question = GetQuestion(themeNum, i, processedString);
             topicQuestions.Add(question);
         }

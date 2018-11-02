@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Sequence/Intro.unity
+- path: Assets/Scenes/FirstRound/FirstRound.unity
   isLoaded: 1
   isActive: 1
