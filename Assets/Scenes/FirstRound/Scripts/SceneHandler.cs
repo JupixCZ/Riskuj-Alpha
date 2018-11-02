@@ -13,6 +13,7 @@ public class SceneHandler : MonoBehaviour
     private List<GameObject> timerBtns;
     private GameObject questionPanel;
     private GameObject activeQuestionButton;
+    private GameObject imgIngot;
     private Sprite imgSelectedQuestion;
     private Animator anim;
 
@@ -39,6 +40,8 @@ public class SceneHandler : MonoBehaviour
         activePhase = Phase.CHOOSING;
         questionPanel = GameObject.Find("QuestionPanel");
         imgSelectedQuestion = Resources.Load<Sprite>("Image/selectedQuestion");
+        imgIngot = GameObject.Find("IngotImage");
+        imgIngot.SetActive(false);
         anim = questionPanel.GetComponent<Animator>();
         anim.enabled = false;
         answeringTimerRunning = false;
@@ -225,6 +228,7 @@ public class SceneHandler : MonoBehaviour
         GlobalHandler.RefreshPlayers();
 
         questionPanel.GetComponentInChildren<Text>().text = activeQuestion.GetText();
+        imgIngot.SetActive(false);
 
         anim.enabled = true;
         anim.Play("QuestionSlideIn");
@@ -349,7 +353,8 @@ public class SceneHandler : MonoBehaviour
 
     private void SetupIngotPhase()
     {
-        questionPanel.GetComponentInChildren<Text>().text = "Bronzová cihlička";
+        questionPanel.GetComponentInChildren<Text>().text = null;
+        imgIngot.SetActive(true);
 
         audioSource.PlayOneShot(ingotSound);
         anim.enabled = true;
