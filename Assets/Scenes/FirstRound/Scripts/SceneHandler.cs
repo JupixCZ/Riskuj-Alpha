@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SceneHandler : MonoBehaviour
 {
+    private const string PREMIUM_CMP = "PremiumP";
 
     private enum Phase { CHOOSING, READING, WAITING, ANSWERING, RESOLUTING, INGOT };
     private Phase activePhase;
@@ -67,9 +68,13 @@ public class SceneHandler : MonoBehaviour
         GameObject.Find("FirstPlayerName").GetComponent<NameComponent>().SetPlayer(firstPlayer);
         GameObject.Find("FirstPlayerScore").GetComponent<ScoreComponent>().SetPlayer(firstPlayer);
 
+        InitPremium(firstPlayer);
+
         Player secondPlayer = GlobalHandler.getPlayer(2);
         GameObject.Find("SecondPlayerName").GetComponent<NameComponent>().SetPlayer(secondPlayer);
         GameObject.Find("SecondPlayerScore").GetComponent<ScoreComponent>().SetPlayer(secondPlayer);
+
+        InitPremium(secondPlayer);
 
         Player thirdPlayer = GlobalHandler.getPlayer(3);
         //TODO
@@ -112,6 +117,24 @@ public class SceneHandler : MonoBehaviour
             timerBtn.SetActive(false);
             timerBtns.Add(timerBtn);
         }
+    }
+
+    private void InitPremium(Player player) {
+        int index = player.GetIndex();
+        GameObject premiumCmp;
+        string cmpName;
+
+        List<GameObject> premiumImgs = new List<GameObject>();
+
+        for (int i = 1; i < 6; i++)
+        {
+            cmpName = PREMIUM_CMP + index + "-" + i;
+            premiumCmp = GameObject.Find(cmpName);
+            premiumCmp.SetActive(false);
+            premiumImgs.Add(premiumCmp);
+        }
+
+        player.SetPremiumCmps(premiumImgs);
     }
 
     private void UpdateTimer()
@@ -288,6 +311,15 @@ public class SceneHandler : MonoBehaviour
 
             SetupNewChoosingPhase(true);
         }
+        else if (KeyUtil.IsShift(keyCode))
+        {
+            if (activeQuestion.IsTopic())
+            {
+                StopTimer();
+                SetupNewChoosingPhase(false, true);
+                return;
+            }
+        }
         else if (KeyUtil.IsCtrl(keyCode))
         {
             if (activeQuestion.IsTopic())
@@ -313,9 +345,18 @@ public class SceneHandler : MonoBehaviour
 
     private void SetupNewChoosingPhase(bool claimPrize)
     {
+        SetupNewChoosingPhase(claimPrize, false);
+    }
+
+    private void SetupNewChoosingPhase(bool claimPrize, bool premiumOnly)
+    {
         if (claimPrize)
         {
             GlobalHandler.ActivePlayerClaimPrize(activeQuestion);
+            audioSource.PlayOneShot(aplausSound);
+        }
+        else if (premiumOnly) {
+            GlobalHandler.ActivePlayerClaimPremium();
             audioSource.PlayOneShot(aplausSound);
         }
 

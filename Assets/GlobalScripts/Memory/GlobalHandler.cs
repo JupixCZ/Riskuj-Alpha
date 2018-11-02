@@ -11,18 +11,18 @@ public static class GlobalHandler
     {
         players = new List<Player>();
 
-        AddNewPlayer(name1);
-        AddNewPlayer(name2);
+        AddNewPlayer(name1, 1);
+        AddNewPlayer(name2, 2);
 
         if (name3 != null)
         {
-            AddNewPlayer(name3);
+            AddNewPlayer(name3, 3);
         }
     }
 
-    private static void AddNewPlayer(string name)
+    private static void AddNewPlayer(string name, int index)
     {
-        players.Add(new Player(name));
+        players.Add(new Player(name, index));
     }
 
     public static Player getPlayer(int num)
@@ -71,6 +71,13 @@ public static class GlobalHandler
         Player activePlayer = GetActivePlayer();
 
         activePlayer.AnsweredWrong(question.GetPrize());
+    }
+
+    public static void ActivePlayerClaimPremium()
+    {
+        Player activePlayer = GetActivePlayer();
+
+        activePlayer.IncrementPremium();
     }
 
     public static Player GetActivePlayer()
@@ -130,11 +137,13 @@ public static class GlobalHandler
         return playerByArrowCode;
     }
 
-    public static void ActivateDebugMode() {
+    public static void ActivateDebugMode()
+    {
         debugMode = true;
     }
 
-    public static bool IsDebugMode() {
+    public static bool IsDebugMode()
+    {
         return debugMode;
     }
 }

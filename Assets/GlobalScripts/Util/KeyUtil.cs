@@ -7,6 +7,7 @@ public static class KeyUtil
 {
 
     //TODO redo to KEYCODES! maybe not needed at all!
+    private const string SHIFT = "shift";
     private const string SPACEBAR = "space";
     private const string CTRL = "ctrl";
     private const string ARROW_LEFT = "left";
@@ -36,6 +37,11 @@ public static class KeyUtil
         return keyCode.Equals(CTRL);
     }
 
+    public static bool IsShift(string keyCode)
+    {
+        return keyCode.Equals(SHIFT);
+    }
+
     public static string ConvertKeyInput()
     {
         if (Input.GetKeyDown(SPACEBAR))
@@ -61,6 +67,11 @@ public static class KeyUtil
         if (Input.GetKeyDown(KeyCode.RightControl))
         {
             return CTRL;
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            return SHIFT;
         }
 
         return Input.inputString;
