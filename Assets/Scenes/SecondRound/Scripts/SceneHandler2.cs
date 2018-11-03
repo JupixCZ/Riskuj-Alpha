@@ -242,7 +242,6 @@ public class SceneHandler2 : MonoBehaviour
     private void StartTimer()
     {
         startAnsweringTime = Time.time;
-        roundTimerAlert = 0;
         answeringTimerRunning = true;
     }
 

@@ -12,7 +12,7 @@ public class IntroTimer : MonoBehaviour {
     public IEnumerator LoadSetup()
     {
         //float delayTime = GlobalHandler.IsDebugMode() ? 1f : 14f;
-        float delayTime = 1f;
+        float delayTime = 14f;
 
         yield return new WaitForSecondsRealtime(delayTime);
 

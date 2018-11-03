@@ -1,0 +1,97 @@
+﻿[PRVNI_KOLO]
+[TEMA=Kreatury]=Kdy se v USA slaví Halloween?;
+[1000]=Dřevěný kůl, česnek a sluneční svit. Jaká bytost Vás napadne?;
+[2000]=Jaká bytost má unášet děti, které se po setmění toulají venku?;
+[3000]=***;
+[4000]=Jaký je rozdíl mezi satanem a ďáblem?;
+[5000]=Hledáme skotskou mytologickou bytost, která se projevuje táhlým zoufalým kvílením a pláčem. Nejčastěji se zjevovala šlechticům a její kvílení zvěstuje smrt. O koho se jedná?;
+[TEMA=Pověry]=Co znamená hvězdička, která se objeví po rozkrojení jablka na štědrý den?;
+[1000]=Proč se nesmí vstávat od štědrovečerní večeře?;
+[2000]=Co znamená déšť ve svatební den?;
+[3000]=Uslyšíte tři zaklepání a nikdo není za dveřmi - kdo to dle pověry klepal?;
+[4000]=Jakou úlohu mívaly na svatbě družičky? Proč se oblékaly podobně jako nevěsta?;
+[5000]=Proč se nemá šít ani plést před půlnoční mší?;
+[TEMA=Pověry II]=Co Vám přinese hrobník, kterého náhodně potkáte mimo hřbitov?;
+[1000]=Co se říká o svatbě v máji?;
+[2000]=Co se říkávalo o dívkách, které měly rády kočky a obklopovaly se jimi?;
+[3000]=Jaká je pro svatebčany nejhorší věc, kterou mohou potkat na cestě na do kostela?;
+[4000]=***;
+[5000]=Co znamená bílý kůň ve snu?;
+[TEMA=Kytice]=Ve mdlobách tu matka leží, 
+k ňadrám dítě přimknuté 
+matku vzkřísil ještě stěží, 
+avšak dítě - zalknuté.;
+[1000]=Bílé šatičky smutek tají, 
+v perlách se slzy ukrývají, 
+a pátek nešťastný je den, 
+nechoď, dceruško, k vodě ven;
+[2000]=Moc, má panenko, moc se ptáš, 
+však ještě dnes to uhlídáš. 
+Jen honem pojď - čas utíká, 
+a dálka ještě veliká. 
+Co máš, má milá, za pasem?;
+[3000]=A před chalupou s koně hop 
+a na chalupu: klop, klop, klop! 
+Hola hej ! otevřte mi dvéře, 
+zbloudil jsem při lovení zvěře, 
+dejte vody pít!;
+[4000]=Toč se a vrč, můj kolovrátku, 
+ejhle adventu již nakrátku 
+a blízko, blizoučko Štědrý den!;
+[5000]=Umřela panna v době jarních let, 
+jako když uschne mladé růže květ,
+umřela panna, růže v poupěti - 
+škoda jí, škoda v zemi ležeti!;
+[TEMA=Horor]=Herečka Nicol Kidman ztvárnila ve filmu z roku 2001 manželku se dvěma dětmi, která čekala v potemnělém domě na návrat svého manžela z války. O jakém filmu hovoříme?;
+[1000]=***;
+[2000]=Řekněte název hororu, podle kterého nosí lidé po celém světe charakteristickou protáhlou masku ve tvaru lebky. Tento film také odstartoval sérii parodií s českým názvem Děsnej Biják.;
+[3000]=Hledáme film z roku 1975, který režíroval Steven Spielberg. Jedná se o legendární film o lovu na nebezpečného žraloka. Jeho název?;
+[4000]=V jakém filmu se poprvé představil psychopat Jason Vorhees?;
+[5000]=Film byl natočen roku 1999. Jedná se o americký historický horror, ve kterém mladý konstábl vyšetřuje případ vražd, které měl údajně na svědomí bezhlavý jezdec. Název filmu?;
+[DRUHE_KOLO]
+[1000]=Jak se nazývá známý misteriózní TV pořad americké produkce, ve kterém měl divák rozeznávat mezi pravdou a fikcí?;
+[2000]=V jaké povídce od Charlese Dickense se objeví Duchové vánoc minulých, současných a budoucích?;
+[3000]=V Londýně kolem roku 1888 působil sériový vrah, jehož oběti byly převážně ženy, které se živily prostitucí. Nebyl nikdy dopaden. O jakém sériovém vrahovi mluvíme?;
+[4000]=Kdo je největším vrahem hmyzí říše, který má v historii nasvědomí nejvíce lidských životů?;
+[5000]=Kovový prvek s chemickou značkou Ag, je známý již od starověku. Pyšní se výjimečnou elektrickou a tepelnou vodivostí, proto se používá v elektronickém průmyslu, ale i ve šperkařství. O jaký kov se jedná?;
+[6000]=Jak se ve hře HOMM V nazývá strana, ve které vládne přísný matriarchát, ženy mrzačí své otroky a k úspěchu využívá silných kouzel a rituálů?;
+[7000]=Horor z roku 2014 pojednává o panence posedlou ďáblem. Film se umístil v žebříčku mezi nejhoršími horory všech dob. Název filmu potažmo panenky?;
+[8000]=Hannibal Lecter je smyšlený sériový vrah, kanibal a výborný psychiatr. V jakém známém filmu ho zahrál herec Anthony Hopkins?;
+[9000]=V sérii Stmívání byl jednou z hlavních postav upír Edward. Řekněte celé jméno herce této postavy.;
+[10000]=Ve filmu Harry Potter a Vězeň z Azkabanu fungují jako dočasní strážci školy v Bradavicích stvoření, která se živí na pozitivních lidských emocích. Jak se tato stvoření jmenují?;
+[12000]=2. Listopadu se v ČR slaví Dušičky. To je však jen lidový název, čí svátek se vlastně slaví?;
+[14000]=Kdo je svatým patronem všech poutníků?;
+[16000]=Film z roku 2002 popisuje pátrání novinářky po osudech rodiny zobrazené na záhadné videokazetě, po jejímž zhlédnutí zazvoní divákovi telefon, v němž mu dívčí hlas oznámí, že do sedmi dnů zemře. Název filmu?;
+[18000]=Jak se jmenovali mrtví jezdci z trilogie Pána prstenů, kteří hledali prsten a proto stíhali Froda? Co to bylo za stvoření?;
+[20000]=V jakém filmu působil pan Karel Kopfrkingl, zaměstnanec pražského krematoria? Jedná se o kritiky nejoceňovanější český psychologický horor. Ve filmu si ho zahrál ho Rudolf Hrušínský. Název filmu, který vychází z knižní předlohy Ladislava Fukse?;
+[22000]=***;
+[24000]=Ve filmu Harry Potter a Kámen mudrců bojoval Harry na dívčích záchodech s Trolem. O jaký konkrétní taxonomický druh Trola se jednalo?;
+[26000]=Jaký svatý je patronem nemocných a chudých?;
+[28000]=Jaké je ve hře HOMM V za normální situace nejsilnější destruktivní kouzlo s účinkem na jednu jednotku?;
+[30000]=Ve filmu Underworld z roku 2003, proti sobě bojovali upíři s vlkodlaky. Jakou zbraň používala hlavní postava, upírka Selene, nejčastěji?;
+[32000]=Jaká stvoření tvořila hlavní bojovou sílu armád Saurona a Sarumana, spojenectví dvou věží?;
+[34000]=Jak se nazývá astronomický jev, kdy se v přesné rovině ocitne země mezi sluncem a měsícem?;
+[36000]=Nejtěžší známý prvek, objevený roku 1804 patří spolu s Iridiem a Platinou do triády těžkých platinových kovů. Se značkou Os, o jaký kov se jedná?;
+[37000]=Jaká jednotka ve hře HOMM V dokáže jednou za boj oživit část padlých přátelských jednotek?;
+[40000]=Co je agorafobie?;
+[43000]=Kdo je svatým patronem všech horníků a rolníků?;
+[46000]=***;
+[49000]=Co je to fotofobie?;
+[52000]=Jak se v HOMM V nazývá silné kouzlo magie světla, které způsobí škody jednotce podle toho, kolik jiných jednotek už zabila?;
+[55000]=Svatý patron všech skautů se slaví 24. dubna. Jak se jmenuje?;
+[58000]=V říjnu 1994 se záhadně ztratili v lesích poblíž Burkitsville v Marylandu tři studenti při práci na dokumentárním filmu. O rok později byl nalezen materiál, který natočili. Mystifikační horor o tajemné kanibalistické příšeře, který zaznamenal mimořádný komerční úspěch byl natočen v roce 1999. Název filmu?;
+[61000]=Která jednotka ve hře HOMM V vyvolává u nepřítele hrůzu (snižuje morálku) jen svou přítomností na bojišti?;
+[64000]=Jaký je původ satana dle bible?;
+[67000]=Pokud je základová část domu starší a špatně provedená může docházet k nasávání jistého radioaktivního plynu do objektu. Česko se díky geologické stavbě řadí k zemím s vysokou průměrnou koncentrací tohoto plynu v bytech. O jaký radioaktivní plyn se jedná?;
+[70000]=Co je to tetrafobie?;
+[TRETI_KOLO]
+[1]=Známá je ženská varianta sexuálního démona, tedy Sukkuby. Jak se však nazývá mužská varianta tohoto démona?;
+[2]=Kdo byl úhlavním nepřítelem ve druhém dílu trilogie Spider-Man?;
+[3]=***;
+[4]=Tělo člověka s křídly, nohy ptáka, silný křik, který ochromuje i zabíjí. O jakou mýtickou ženskou bytost se jedná?;
+[5]=Jak se nazývá typ ducha, který má telekinetické schopnosti, tedy může pohybovat s předměty?;
+[6]=Herečka Sarah Michelle Gellar si zahrála v kultovním seriálu postavu bojovnice proti upírům, démonům a jiným zlým silám. Seriál se začal vysílat roku 1997 a bylo natočeno 6 řad. Jak se tato postava jmenovala?;
+[7]=Lovce upírů v akční trilogii ztvárnil herec Wesley Snipes. Jak se nazývala postava, která také byla upírem a která se jmenovala stejně jako film samotný?;
+[8]=Film z roku 2005 vypráví o exorcistovi, kterému kvůli silné tabákové závislosti už nezbývá mnoho času a snaží se v tom zbývajícím čase vykoupit skrze potírání ďábla na zemi. Hlavní roli ztvárnil Keanu Reeves. Název filmu a tedy i hlavní postavy?;
+[9]=Kdo je při seancích vyvolávání duchů, statisticky nejčastěji vyvoláván?;
+[KONEC]

@@ -338,7 +338,7 @@ public class SceneHandler3 : MonoBehaviour
 
         anim.Play("QuestionSlideOut");
 
-        if (questionTries > 2)
+        if (questionTries > 2 || player.GetBalance() == 0)
         {
             SetupEndRoundPhase();
         }
