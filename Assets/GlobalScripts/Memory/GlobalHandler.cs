@@ -6,6 +6,7 @@ public static class GlobalHandler
 {
     private static bool debugMode = false;
     private static List<Player> players;
+    private static bool endGame = false;
 
     public static void InitPlayers(string name1, string name2, string name3)
     {
@@ -147,7 +148,8 @@ public static class GlobalHandler
         return debugMode;
     }
 
-    public static void SwitchActivePlayers() {
+    public static void SwitchActivePlayers()
+    {
 
         bool newActive;
         foreach (Player player in players)
@@ -155,5 +157,23 @@ public static class GlobalHandler
             newActive = !player.IsActive();
             player.SetActive(newActive);
         }
+    }
+
+    public static Player GetLastPlayer()
+    {
+        return players[0];
+    }
+
+    public static void RemovePlayer(Player player)
+    {
+        players.Remove(player);
+    }
+
+    public static void EndGame() {
+        endGame = true;
+    }
+
+    public static bool IsEndGame() {
+        return endGame;
     }
 }

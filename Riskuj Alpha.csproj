@@ -98,7 +98,11 @@
     <Compile Include="Assets\Scenes\Sequence\Scripts\FirstRoundSeqTimer.cs" />
     <Compile Include="Assets\Scenes\Sequence\Scripts\IntroTimer.cs" />
     <Compile Include="Assets\Scenes\Sequence\Scripts\SecondRoundSeqTimer.cs" />
+    <Compile Include="Assets\Scenes\Sequence\Scripts\ThirdRoundSeqTimer.cs" />
     <Compile Include="Assets\Scenes\Setup\Scripts\SetupSceneHandler.cs" />
+    <Compile Include="Assets\Scenes\ThirdRound\Scripts\NameComponent3.cs" />
+    <Compile Include="Assets\Scenes\ThirdRound\Scripts\SceneHandler3.cs" />
+    <Compile Include="Assets\Scenes\ThirdRound\Scripts\ScoreComponent3.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -15,6 +15,13 @@ public class IntroTimer : MonoBehaviour {
         float delayTime = 1f;
 
         yield return new WaitForSecondsRealtime(delayTime);
-        SceneManager.LoadScene("Setup");
+
+        if (GlobalHandler.IsEndGame())
+        {
+            Application.Quit();
+        }
+        else {
+            SceneManager.LoadScene("Setup");
+        }
     }
 }

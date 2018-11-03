@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player
 {
+    private static int minimumFinalBalance = 10000;
+
     private string name;
     private int index;
     private int balance;
@@ -61,6 +63,11 @@ public class Player
         this.wrongAnswer = true;
     }
 
+    public void TakeFromBalance(int balance)
+    {
+        this.balance -= balance;
+    }
+
     public void RefreshAnswering() {
         this.wrongAnswer = false;
     }
@@ -83,6 +90,12 @@ public class Player
             active = i <= premium;
             premiumCmp.SetActive(active);
             i++;
+        }
+    }
+
+    public void EnsureMinimumFinalBalance() {
+        if (balance < minimumFinalBalance) {
+            this.balance = minimumFinalBalance;
         }
     }
 }
