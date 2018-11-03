@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneHandler : MonoBehaviour
+public class SceneHandler2 : MonoBehaviour
 {
+
     private const string PREMIUM_CMP = "PremiumP";
 
-    private enum Phase { CHOOSING, READING, WAITING, ANSWERING, RESOLUTING, INGOT, END_ROUND };
+    private enum Phase { CHOOSING, READING, ANSWERING, INGOT, END_ROUND };
     private Phase activePhase;
     private List<Question> questions;
     private Question activeQuestion;
@@ -24,6 +25,7 @@ public class SceneHandler : MonoBehaviour
     private AudioClip ingotSound;
     private AudioClip questionSound;
     private AudioClip failSound;
+    private AudioClip timeOutSound; //TODO
 
     private string firstKey;
     private string secondKey;
@@ -32,12 +34,20 @@ public class SceneHandler : MonoBehaviour
     private float startAnsweringTime;
     private float answeringTimerSec;
 
-    // Use this for initialization
+    private bool roundTimerRunning;
+    private float startRoundTime;
+    private int roundTimerAlert;
+    private int firstTimeAlertSec;
+    private int secondTimeAlertSec;
+    private int thirdTimeAlertSec;
+    private int finalTimeAlertSec;
+    private bool timeOut;
+
     void Start()
     {
         InitPlayers();
         InitQuestions();
-        InitTimer();
+        InitTimers();
         InitSounds();
         activePhase = Phase.CHOOSING;
         questionPanel = GameObject.Find("QuestionPanel");
@@ -51,13 +61,21 @@ public class SceneHandler : MonoBehaviour
 
     void Update()
     {
+        if (roundTimerRunning) {
+            UpdateRoundTimer();
+        }
+
         if (answeringTimerRunning)
         {
-            UpdateTimer();
+            UpdateAnsweringTimer();
         }
 
         if (Input.anyKeyDown)
         {
+            if (!roundTimerRunning && !timeOut) {
+                StartRoundTimer();
+            }
+
             string inputString = KeyUtil.ConvertKeyInput();
             ResolveKeyInput(inputString);
         }
@@ -65,20 +83,27 @@ public class SceneHandler : MonoBehaviour
 
     public void InitPlayers()
     {
-        Player firstPlayer = GlobalHandler.getPlayer(1);
-        GameObject.Find("FirstPlayerName").GetComponent<NameComponent>().SetPlayer(firstPlayer);
-        GameObject.Find("FirstPlayerScore").GetComponent<ScoreComponent>().SetPlayer(firstPlayer);
+        Player firstPlayer = GlobalHandler.getPlayer(1); //TODO Bad for 3 player game
+        GameObject.Find("FirstPlayerName").GetComponent<NameComponent2>().SetPlayer(firstPlayer);
+        GameObject.Find("FirstPlayerScore").GetComponent<ScoreComponent2>().SetPlayer(firstPlayer);
 
         InitPremium(firstPlayer);
 
-        Player secondPlayer = GlobalHandler.getPlayer(2);
-        GameObject.Find("SecondPlayerName").GetComponent<NameComponent>().SetPlayer(secondPlayer);
-        GameObject.Find("SecondPlayerScore").GetComponent<ScoreComponent>().SetPlayer(secondPlayer);
+        Player secondPlayer = GlobalHandler.getPlayer(2); //TODO Bad for 3 player game
+        GameObject.Find("SecondPlayerName").GetComponent<NameComponent2>().SetPlayer(secondPlayer);
+        GameObject.Find("SecondPlayerScore").GetComponent<ScoreComponent2>().SetPlayer(secondPlayer);
 
         InitPremium(secondPlayer);
 
-        Player thirdPlayer = GlobalHandler.getPlayer(3);
-        //TODO
+        if (secondPlayer.GetBalance() > firstPlayer.GetBalance())
+        {
+            secondPlayer.SetActive(true);
+            firstPlayer.SetActive(false);
+        }
+        else {
+            firstPlayer.SetActive(true);
+            secondPlayer.SetActive(false);
+        }
     }
 
     private void InitSounds()
@@ -87,12 +112,13 @@ public class SceneHandler : MonoBehaviour
         aplausSound = Resources.Load<AudioClip>("Sound/aplaus");
         ingotSound = Resources.Load<AudioClip>("Sound/ingot");
         questionSound = Resources.Load<AudioClip>("Sound/question");
+        timeOutSound = Resources.Load<AudioClip>("Sound/timeout");
         failSound = Resources.Load<AudioClip>("Sound/fail");
     }
 
     private void InitQuestions()
     {
-        questions = FileReader.GetFirstRoundQuestions();
+        questions = FileReader.GetSecondRoundQuestions();
         PairQuestionsWithButtons(questions);
     }
 
@@ -106,7 +132,7 @@ public class SceneHandler : MonoBehaviour
         }
     }
 
-    private void InitTimer()
+    private void InitTimers()
     {
         timerBtns = new List<GameObject>();
 
@@ -118,41 +144,42 @@ public class SceneHandler : MonoBehaviour
             timerBtn.SetActive(false);
             timerBtns.Add(timerBtn);
         }
+
+        roundTimerRunning = false;
+        timeOut = false;
+        firstTimeAlertSec = GlobalHandler.IsDebugMode() ? 30 : 300;
+        secondTimeAlertSec = GlobalHandler.IsDebugMode() ? 60 : 360;
+        thirdTimeAlertSec = GlobalHandler.IsDebugMode() ? 90 : 420;
+        finalTimeAlertSec = GlobalHandler.IsDebugMode() ? 120 : 480;
     }
 
-    private void InitPremium(Player player) {
+    private void InitPremium(Player player)
+    {
         int index = player.GetIndex();
         GameObject premiumCmp;
         string cmpName;
-
-        List<GameObject> premiumImgs = new List<GameObject>();
+        int premium = player.GetPremium();
+        bool active;
 
         for (int i = 1; i < 6; i++)
         {
             cmpName = PREMIUM_CMP + index + "-" + i;
             premiumCmp = GameObject.Find(cmpName);
-            premiumCmp.SetActive(false);
-            premiumImgs.Add(premiumCmp);
-        }
 
-        player.SetPremiumCmps(premiumImgs);
+            active = i <= premium;
+            premiumCmp.SetActive(active);
+        }
     }
 
-    private void UpdateTimer()
+    private void UpdateAnsweringTimer()
     {
         float currentAnsweringTime = Time.time - startAnsweringTime;
         float timePercentileExpired = currentAnsweringTime / (answeringTimerSec / 100);
 
         if (timePercentileExpired > 100)
         {
+            StopTimer();
             audioSource.PlayOneShot(failSound);
-
-            if (activeQuestion.IsTopic()) {
-                StopTimer();
-                return;
-            }
-
-            SetupResolutingPhase();
             return;
         }
 
@@ -171,6 +198,37 @@ public class SceneHandler : MonoBehaviour
         }
     }
 
+    private void UpdateRoundTimer()
+    {
+        float timeSecExpired = Time.time - startRoundTime;
+
+        if (timeSecExpired > 300 && roundTimerAlert < 1)
+        {
+            roundTimerAlert++;
+            audioSource.PlayOneShot(timeOutSound);
+            return;
+        }
+
+        if (timeSecExpired > 360 && roundTimerAlert < 2)
+        {
+            roundTimerAlert++;
+            audioSource.PlayOneShot(timeOutSound);
+            return;
+        }
+
+        if (timeSecExpired > 420 && roundTimerAlert < 3) {
+            roundTimerAlert++;
+            audioSource.PlayOneShot(timeOutSound);
+            return;
+        }
+
+        if (timeSecExpired > 480) {
+            audioSource.PlayOneShot(timeOutSound);
+            StopRoundTimer();
+            return;
+        }
+    }
+
     private void StopTimer()
     {
         answeringTimerRunning = false;
@@ -184,7 +242,18 @@ public class SceneHandler : MonoBehaviour
     private void StartTimer()
     {
         startAnsweringTime = Time.time;
+        roundTimerAlert = 0;
         answeringTimerRunning = true;
+    }
+
+    private void StartRoundTimer() {
+        startRoundTime = Time.time;
+        roundTimerRunning = true;
+    }
+
+    private void StopRoundTimer() {
+        roundTimerRunning = false;
+        timeOut = true;
     }
 
     private void ResolveKeyInput(string keyCode)
@@ -193,9 +262,7 @@ public class SceneHandler : MonoBehaviour
         {
             case Phase.CHOOSING: ResolveChoosingPhaseKeyInput(keyCode); break;
             case Phase.READING: ResolveReadingPhaseKeyInput(keyCode); break;
-            case Phase.WAITING: ResolveWaitingPhaseKeyInput(keyCode); break;
             case Phase.ANSWERING: ResolveAnsweringPhaseKeyInput(keyCode); break;
-            case Phase.RESOLUTING: ResolveResolutingPhaseKeyInput(keyCode); break;
             case Phase.INGOT: ResolveIngotPhaseKeyInput(keyCode); break;
             case Phase.END_ROUND: ResolveEndRoundPhaseKeyInput(keyCode); break;
         }
@@ -251,8 +318,6 @@ public class SceneHandler : MonoBehaviour
 
     private void SetupReadingPhase()
     {
-        GlobalHandler.RefreshPlayers();
-
         questionPanel.GetComponentInChildren<Text>().text = activeQuestion.GetText();
         imgIngot.SetActive(false);
 
@@ -269,95 +334,41 @@ public class SceneHandler : MonoBehaviour
     {
         if (KeyUtil.IsSpacebar(keyCode))
         {
-            SetupWaitingPhase();
+            SetupAnsweringPhase();
         }
     }
 
-    private void SetupWaitingPhase()
+    private void SetupAnsweringPhase()
     {
-        activePhase = Phase.WAITING;
-        answeringTimerSec--;
+        activePhase = Phase.ANSWERING;
         StartTimer();
-    }
-
-    private void ResolveWaitingPhaseKeyInput(string keyCode)
-    {
-        if (KeyUtil.IsPlayerArrow(keyCode))
-        {
-            SetupAnsweringPhase(keyCode);
-        }
-    }
-
-    private void SetupAnsweringPhase(string keyCode)
-    {
-        Player player = GlobalHandler.ActivatePlayerByArrowCode(keyCode, true);
-        if (player != null)
-        {
-            activePhase = Phase.ANSWERING;
-            StopTimer();
-        }
     }
 
     private void ResolveAnsweringPhaseKeyInput(string keyCode)
     {
-        if (KeyUtil.IsPlayerArrow(keyCode))
-        {
-            SetupAnsweringPhase(keyCode);
-        }
-        else if (KeyUtil.IsSpacebar(keyCode))
+        if (KeyUtil.IsSpacebar(keyCode))
         {
             SetupNewChoosingPhase(true);
         }
-        else if (KeyUtil.IsShift(keyCode))
-        {
-            if (activeQuestion.IsTopic())
-            {
-                StopTimer();
-                SetupNewChoosingPhase(false, true);
-                return;
-            }
-        }
         else if (KeyUtil.IsCtrl(keyCode))
         {
-            if (activeQuestion.IsTopic())
-            {
-                StopTimer();
-                SetupNewChoosingPhase(false);
-                return;
-            }
-
-            GlobalHandler.ActivePlayerFailed(activeQuestion);
-            GlobalHandler.DeactivatePlayers();
-
-            if (GlobalHandler.AnyAnsweringPlayerLeft())
-            {
-                SetupWaitingPhase();
-            }
-            else
-            {
-                SetupResolutingPhase();
-            }
+            SetupNewChoosingPhase(false);
         }
     }
 
     private void SetupNewChoosingPhase(bool claimPrize)
-    {
-        SetupNewChoosingPhase(claimPrize, false);
-    }
-
-    private void SetupNewChoosingPhase(bool claimPrize, bool premiumOnly)
     {
         if (claimPrize)
         {
             GlobalHandler.ActivePlayerClaimPrize(activeQuestion);
             audioSource.PlayOneShot(aplausSound);
         }
-        else if (premiumOnly) {
-            GlobalHandler.ActivePlayerClaimPremium();
-            audioSource.PlayOneShot(aplausSound);
+        else {
+            GlobalHandler.ActivePlayerFailed(activeQuestion);
         }
 
-        GlobalHandler.DeactivatePlayers();
+        StopTimer();
+        GlobalHandler.SwitchActivePlayers();
 
         questions.Remove(activeQuestion);
         activeQuestionButton.SetActive(false);
@@ -368,23 +379,9 @@ public class SceneHandler : MonoBehaviour
 
         anim.Play("QuestionSlideOut");
 
-        if (questions.Count == 0)
+        if (questions.Count == 0 || timeOut)
         {
             SetupEndRoundPhase();
-        }
-    }
-
-    private void SetupResolutingPhase()
-    {
-        StopTimer();
-        activePhase = Phase.RESOLUTING;
-    }
-
-    private void ResolveResolutingPhaseKeyInput(string keyCode)
-    {
-        if (KeyUtil.IsSpacebar(keyCode))
-        {
-            SetupNewChoosingPhase(false);
         }
     }
 
@@ -402,27 +399,14 @@ public class SceneHandler : MonoBehaviour
 
     private void ResolveIngotPhaseKeyInput(string keyCode)
     {
-
-        Player player;
-
-        if (KeyUtil.IsPlayerArrow(keyCode))
+        if (KeyUtil.IsSpacebar(keyCode))
         {
-            player = GlobalHandler.ActivatePlayerByArrowCode(keyCode, false);
-        }
-        else if (KeyUtil.IsSpacebar(keyCode))
-        {
-
-            player = GlobalHandler.GetActivePlayer();
-            if (player == null)
-            {
-                return;
-            }
-
             SetupNewChoosingPhase(true);
         }
     }
 
-    private void SetupEndRoundPhase() {
+    private void SetupEndRoundPhase()
+    {
         activePhase = Phase.END_ROUND;
     }
 
@@ -430,7 +414,9 @@ public class SceneHandler : MonoBehaviour
     {
         if (KeyUtil.IsSpacebar(keyCode))
         {
-            SceneManager.LoadScene("SecondRoundSeq");
+            Debug.Log("END");
+            //kill loser player
+           // SceneManager.LoadScene("SecondRoundSeq");
         }
     }
 
@@ -446,6 +432,4 @@ public class SceneHandler : MonoBehaviour
 
         return null;
     }
-
-
 }

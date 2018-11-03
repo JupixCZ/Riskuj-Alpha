@@ -16,7 +16,7 @@ public static class GlobalHandler
 
         if (name3 != null)
         {
-            AddNewPlayer(name3, 3);
+            //AddNewPlayer(name3, 3);
         }
     }
 
@@ -145,5 +145,15 @@ public static class GlobalHandler
     public static bool IsDebugMode()
     {
         return debugMode;
+    }
+
+    public static void SwitchActivePlayers() {
+
+        bool newActive;
+        foreach (Player player in players)
+        {
+            newActive = !player.IsActive();
+            player.SetActive(newActive);
+        }
     }
 }
